@@ -17,10 +17,8 @@ MAX_RESULTS = 3
 
 
 def make_quiz(lecture: int) -> str:
-    """指定した回の用語から1つ選び、意味を答える確認問題を作る。
-
-    「確認問題を出して」のように講義内容の復習を頼まれたときに使う。
-    lecture には対象の回を1始まりの整数で指定する。
+    """指定した回の用語から1つを選び、確認問題と答えを返す。
+    「第2回の確認問題を出して」のように、復習用の問題を求められたときに使う。
     """
     terms = [term for term in load_glossary() if term["lecture"] == lecture]
     if not terms:
