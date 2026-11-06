@@ -8,8 +8,32 @@ import json
 from functools import cache
 from pathlib import Path
 
+import random
+
+
 DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 MAX_RESULTS = 3
+
+
+
+def make_quiz(lecture: int) -> str:
+    """指定した回の用語から1つ選び、意味を答える確認問題を作る。
+
+    「確認問題を出して」のように講義内容の復習を頼まれたときに使う。
+    lecture には対象の回を1始まりの整数で指定する。
+    """
+    terms = [term for term in load_glossary() if term["lecture"] == lecture]
+    if not terms:
+        return f"第{lecture}回の用語が用語集にありません。"
+
+    term = random.choice(terms)
+    return json.dumps(
+        {
+            "question": f"{term['term']}の意味は？",
+            "answer": term["definition"],
+        },
+        ensure_ascii=False,
+    )
 
 
 @cache
